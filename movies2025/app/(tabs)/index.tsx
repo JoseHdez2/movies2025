@@ -12,9 +12,11 @@ import "../globals.css";
 export default function Index() {
   const router = useRouter();
 
-  const { data: movies, 
+  const { 
+    data: movies, 
     loading: moviesLoading, 
-    error: moviesError } = useFetch(() => fetchMovies({ 
+    error: moviesError 
+  } = useFetch(() => fetchMovies({ 
       query: ''
   }));
 
@@ -34,9 +36,10 @@ export default function Index() {
           <Text>Error : {moviesError?.message}</Text>
         ) : (
           <View className="flex-1 mt-5">
-            <SearchBar 
+            <SearchBar
               onPress={() => router.push('/search')} 
               placeholder="Search for a movie"
+              value=""
             />
             <>
               <Text className="text-lg text-white font-bold mt-5 mb-3">Latest Movies</Text>
