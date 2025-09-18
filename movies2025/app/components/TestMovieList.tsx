@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, Text, View, Image } from 'react-native';
+import { FlatList, Image, Text, View } from 'react-native';
 
 interface Movie {
   id: string;
