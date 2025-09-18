@@ -1,6 +1,6 @@
 import { Text, View } from "react-native";
-import TestMovieList from "./components/TestMovieList";
-import "./globals.css";
+import TestMovieList from "../components/TestMovieList";
+import "../globals.css";
 
 // create a react native component showing a flatlist with static data and show it in index.tsx
 export default function App() {
