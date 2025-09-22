@@ -53,6 +53,7 @@ export const getTrendingMovies = async (): Promise<TrendingMovie[] | undefined> 
             Query.limit(5),
             Query.orderDesc('count'),
         ])
+        
         return result.documents as unknown as TrendingMovie[];
     } catch (error) {
         console.log(error)
