@@ -1,5 +1,5 @@
 # PuroCine
-### React Native app for movies
+### React Native app for browsing a movie database
 - Search and browse millions of movies thanks to the [TMDB](https://www.themoviedb.org/) API.
 - Save your favorites.
 
