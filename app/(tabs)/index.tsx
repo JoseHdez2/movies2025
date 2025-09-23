@@ -1,8 +1,8 @@
+
 import MovieCard from "@/components/MovieCard";
 import SearchBar from "@/components/SearchBar";
 import TrendingCard from "@/components/TrendingCard";
 import { icons } from "@/constants/icons";
-import { images } from "@/constants/images";
 import { fetchMovies } from "@/services/api";
 import { getTrendingMovies } from "@/services/appwrite";
 import useFetch from "@/services/useFetch";
@@ -30,7 +30,7 @@ export default function Index() {
 
   return (
     <View className="flex-1 bg-primary">
-      <Image source={images.bg} className="absolute w-full" />
+      <Image source={icons.logo} className="absolute w-full bottom-10" style={{opacity: 0.3, height: 400}} />
       <ScrollView className="flex-1 px-5" showsVerticalScrollIndicator={false} 
         contentContainerStyle={{minHeight: "100%", paddingBottom: 10 }} >
         <Image source={icons.logo} className="w-12 h-10 mt-20 mb-b mx-auto" />

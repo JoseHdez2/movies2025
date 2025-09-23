@@ -1,7 +1,6 @@
 import MovieCard from '@/components/MovieCard';
 import SearchBar from '@/components/SearchBar';
 import { icons } from '@/constants/icons';
-import { images } from '@/constants/images';
 import { fetchMovies } from '@/services/api';
 import { updateSearchCount } from '@/services/appwrite';
 import useFetch from '@/services/useFetch';
@@ -41,7 +40,7 @@ const Search = () => {
 
   return (
     <View className='flex-1 bg-primary'>
-      <Image source={images.bg} className='flex-1 absolute w-full z-0' resizeMode='cover'/>
+      <Image source={icons.logo} className="absolute w-full bottom-10" style={{opacity: 0.3, height: 400}} />
       <FlatList
         data={movies}
         renderItem={({ item }) => <MovieCard {...item} />} 
