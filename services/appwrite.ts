@@ -43,8 +43,6 @@ export const updateSearchCount = async (query: string, movie: Movie) => {
                 }
             });
         }
-
-        console.log(result)
         return result
     } catch (error) {
         console.log(error)
@@ -84,8 +82,6 @@ export const updateMovieCheckCount = async (movie: MovieDetails) => {
                 }
             });
         }
-
-        console.log(result)
         return result
     } catch (error) {
         console.log(error)
@@ -122,7 +118,6 @@ export const saveMovie = async (movie: Movie, timestamp: string) => {
                 // add other movie fields as needed
             }
         });
-        console.log(result);
         return result;
     } catch (error) {
         console.log(error);
