@@ -1,4 +1,4 @@
-import Layout from '@/components/Layout';
+import Background from '@/components/Background';
 import MovieCard from '@/components/MovieCard';
 import SearchBar from '@/components/SearchBar';
 import { icons } from '@/constants/icons';
@@ -40,7 +40,7 @@ const Search = () => {
   }, [movies])
 
   return (
-    <Layout>
+    <Background>
       <FlatList
         data={movies}
         renderItem={({ item }) => <MovieCard {...item} />} 
@@ -96,7 +96,7 @@ const Search = () => {
           ) : null
         }
       />
-    </Layout>
+    </Background>
   )
 }
 

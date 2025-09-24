@@ -1,5 +1,5 @@
 
-import Layout from "@/components/Layout";
+import Background from "@/components/Background";
 import MovieCard from "@/components/MovieCard";
 import SearchBar from "@/components/SearchBar";
 import TrendingCard from "@/components/TrendingCard";
@@ -30,7 +30,7 @@ export default function Index() {
   }));
 
   return (
-    <Layout>
+    <Background>
       <ScrollView className="flex-1 px-5" showsVerticalScrollIndicator={false} 
         contentContainerStyle={{minHeight: "100%", paddingBottom: 10 }}
       >
@@ -88,6 +88,6 @@ export default function Index() {
           </View>
         )}
       </ScrollView>
-    </Layout>
+    </Background>
   );
 }

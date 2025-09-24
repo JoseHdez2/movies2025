@@ -3,12 +3,12 @@ import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import { Image, StyleSheet, View } from "react-native";
 
-interface LayoutProps {
+interface Props {
     isSplash?: boolean
     children: React.ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, isSplash }) => (
+const Background: React.FC<Props> = ({ children, isSplash }) => (
   <View className="flex-1 bg-primary">
     <Image source={icons.logo} style={[styles.backgroundImage, isSplash && styles.splashImage]} />
     <LinearGradient colors={["#f905", "#0005"]} style={styles.gradient}>
@@ -34,4 +34,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Layout;
+export default Background;

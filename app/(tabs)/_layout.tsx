@@ -16,6 +16,7 @@ const TabIcon = ({focused, icon, title}: any) => focused ?
                             </View>
 
 const _layout = () => {
+    const showProfileTab = false;
     return (
         <Tabs
             screenOptions={{
@@ -78,19 +79,21 @@ const _layout = () => {
                     />)
                 }}
             />
-            <Tabs.Screen
-                name="profile"
-                options={{
-                    title: 'Profile',
-                    headerShown: false,
-                    tabBarIcon: ({focused}) => (
-                        <TabIcon 
-                            focused={focused} 
-                            icon={icons.person}
-                            title='Profile' 
-                    />)
-                }}
-            />
+            {showProfileTab && (
+                <Tabs.Screen
+                    name="profile"
+                    options={{
+                        title: 'Profile',
+                        headerShown: false,
+                        tabBarIcon: ({focused}) => (
+                            <TabIcon 
+                                focused={focused} 
+                                icon={icons.person}
+                                title='Profile' 
+                        />)
+                    }}
+                />
+            )}
         </Tabs>
     )
 }
