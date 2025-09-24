@@ -1,8 +1,9 @@
 import { icons } from '@/constants/icons';
 import { fetchMovieDetails } from '@/services/api';
+import { updateMovieCheckCount } from '@/services/appwrite';
 import useFetch from '@/services/useFetch';
 import { router, useLocalSearchParams } from 'expo-router';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 interface MovieInfoProps {
@@ -26,6 +27,12 @@ const MovieDetails = () => {
 
   const {data: movie, loading } = useFetch(() => fetchMovieDetails(id as string))
 
+  useEffect(() => {
+    if (movie) {
+      updateMovieCheckCount(movie)
+    }
+  }, [movie])
+
   return (
     <View className='bg-primary flex-1'>
       <ScrollView contentContainerStyle={{
@@ -34,6 +41,14 @@ const MovieDetails = () => {
         <View>
           <Image source={{ uri: `https://image.tmdb.org/t/p/w500${movie?.poster_path}`}} 
             className='w-full h-[550px]' resizeMode="stretch" />
+        </View>
+
+        <View>
+          <TouchableOpacity 
+            className='relative top-5 left-0 right-0 mx-5 rounded-lg py-3.5 flex flex-row items-center justify-center z-50'
+            onPress={router.back}>
+            <Image source={icons.save} className='size-5 mr-1 mt-0.5' tintColor="#fff" />
+          </TouchableOpacity>
         </View>
 
         <View className="flex-col items-start justify-center mt-5 px-5">
@@ -59,7 +74,7 @@ const MovieDetails = () => {
       <TouchableOpacity 
         className='absolute bottom-5 left-0 right-0 mx-5 bg-accent rounded-lg py-3.5 flex flex-row items-center justify-center z-50'
         onPress={router.back}>
-        <Image source={icons.arrow} className='size-5 mr-1 mt-0.5 rotate-180' tintColor="#fff" />
+        <Image source={icons.arrow} className='size-5 mr-1 mt-0.5 rotate-180' />
       </TouchableOpacity>
     </View>
   )
