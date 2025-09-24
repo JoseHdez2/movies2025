@@ -11,7 +11,7 @@ interface Props {
 
 const SearchBar = ({placeholder, onPress, value, onChangeText}: Props) => {
   return (
-    <View className="flew-row items-center bg-dark-200 rounded-full px-5 py-4">
+  <View className="flex-row items-center bg-dark-200 rounded-full px-5 py-4">
       <Image source={icons.search} className="size-5" resizeMode="contain" tintColor="#ab8bff" />
       <TextInput
             onPress={onPress}
