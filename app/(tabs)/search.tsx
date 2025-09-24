@@ -1,3 +1,4 @@
+import Layout from '@/components/Layout';
 import MovieCard from '@/components/MovieCard';
 import SearchBar from '@/components/SearchBar';
 import { icons } from '@/constants/icons';
@@ -39,8 +40,7 @@ const Search = () => {
   }, [movies])
 
   return (
-    <View className='flex-1 bg-primary'>
-      <Image source={icons.logo} className="absolute w-full bottom-10" style={{opacity: 0.3, height: 400}} />
+    <Layout>
       <FlatList
         data={movies}
         renderItem={({ item }) => <MovieCard {...item} />} 
@@ -96,7 +96,7 @@ const Search = () => {
           ) : null
         }
       />
-    </View>
+    </Layout>
   )
 }
 
