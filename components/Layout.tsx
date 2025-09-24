@@ -4,12 +4,13 @@ import React from "react";
 import { Image, StyleSheet, View } from "react-native";
 
 interface LayoutProps {
-  children: React.ReactNode;
+    isSplash?: boolean
+    children: React.ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => (
+const Layout: React.FC<LayoutProps> = ({ children, isSplash }) => (
   <View className="flex-1 bg-primary">
-    <Image source={icons.logo} style={styles.backgroundImage} />
+    <Image source={icons.logo} style={[styles.backgroundImage, isSplash && styles.splashImage]} />
     <LinearGradient colors={["#f905", "#0005"]} style={styles.gradient}>
       {children}
     </LinearGradient>
@@ -24,6 +25,10 @@ const styles = StyleSheet.create({
     opacity: 0.3,
     height: 400,
   },
+  splashImage: {
+    opacity: 1
+  },
+  dummy: {},
   gradient: {
     flex: 1,
   },
