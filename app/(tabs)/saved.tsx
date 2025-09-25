@@ -3,21 +3,36 @@ import ListHeader from '@/components/ListHeader'
 import MovieCard from '@/components/MovieCard'
 import { icons } from '@/constants/icons'
 import { getAllUserFavoriteMovies } from '@/services/appwrite/favorites'
-import useFetch from '@/services/useFetch'
 import { useSessionStore } from '@/stores/sessionStore'
-import React from 'react'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import React, { useEffect } from 'react'
 import { ActivityIndicator, FlatList, ScrollView, Text, View } from 'react-native'
 
 const Saved = () => {
 
   const session = useSessionStore((state) => state.session);
 
-  const {
-    data: savedMovies,
-    loading: savedMoviesLoading,
-    error: savedMoviesError
-  } = useFetch(
-    () => getAllUserFavoriteMovies(session?.userId!))
+  const queryClient = useQueryClient()
+  const query = useQuery({ 
+    queryKey: ['saved'], 
+    queryFn: () => getAllUserFavoriteMovies(session?.userId!),
+    refetchOnMount: true,
+    refetchInterval: 5_000
+  })
+
+  useEffect(() => {
+    if (session){
+      console.log('manual refetch')
+      query.refetch()
+    }
+  })
+
+  // const {
+  //   data: savedMovies,
+  //   loading: savedMoviesLoading,
+  //   error: savedMoviesError
+  // } = useSessionFetch(
+  //   () => getAllUserFavoriteMovies(session?.userId!), session)
 
   return (
     <Background>
@@ -25,18 +40,18 @@ const Saved = () => {
       <ScrollView className="flex-1 px-5" showsVerticalScrollIndicator={false}
         contentContainerStyle={{ minHeight: "100%", paddingBottom: 10 }}
       >
-        {savedMoviesLoading ? (<ActivityIndicator
+        {query.isPending ? (<ActivityIndicator
           size="large"
           color="#00f"
           className="mt-10 self-center"
         />
-        ) : savedMoviesError ? (
-          <Text>Error: {savedMoviesError.message}</Text>
-        ) : savedMovies && savedMovies?.length > 0 ? (
+        ) : query.isError ? (
+          <Text>Error: {query.error.message}</Text>
+        ) : query.data && query.data?.length > 0 ? (
           <FlatList
             keyExtractor={(item) => item.movie_id.toString()}
             numColumns={3}
-            data={savedMovies}
+            data={query.data}
             renderItem={({ item }) => (
               <MovieCard {...{
                 id: item.movie_id,
