@@ -1,6 +1,6 @@
 import { icons } from '@/constants/icons';
 import { fetchMovieDetails } from '@/services/api';
-import { updateMovieCheckCount } from '@/services/appwrite';
+import { updateMovieCheckCount } from '@/services/appwrite/metrics';
 import useFetch from '@/services/useFetch';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect } from 'react';
