@@ -33,7 +33,7 @@ const Profile = () => {
         <Text className="text-gray-500 text-base">Profile</Text>
         {session ? (<>
           <Text className="text-white text-xs mt-2">Session ID: {session.$id}</Text>
-          <Text className="text-white text-lg mt-2">Username: {getUsername(session)}</Text>
+          <Text className="text-accent text-lg mt-2">Username: {getUsername(session)}</Text>
         </>) : (
           <TouchableOpacity
             className="mt-4 px-4 py-2 bg-accent rounded-full"
