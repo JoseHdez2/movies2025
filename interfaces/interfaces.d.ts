@@ -28,6 +28,7 @@ interface FavoriteMovie {
   user_id: string;
   movie_title: string;
   poster_url: string;
+  movie_details: string;
 }
 
 interface MovieDetails {
