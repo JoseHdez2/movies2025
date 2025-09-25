@@ -4,7 +4,7 @@ import MovieCard from '@/components/MovieCard'
 import { icons } from '@/constants/icons'
 import { getAllUserFavoriteMovies } from '@/services/appwrite/favorites'
 import { useSessionStore } from '@/stores/sessionStore'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import React, { useEffect } from 'react'
 import { ActivityIndicator, FlatList, ScrollView, Text, View } from 'react-native'
 
@@ -12,9 +12,8 @@ const Saved = () => {
 
   const session = useSessionStore((state) => state.session);
 
-  const queryClient = useQueryClient()
   const query = useQuery({ 
-    queryKey: ['saved'], 
+    queryKey: ['all-user-favorite-movies'], 
     queryFn: () => getAllUserFavoriteMovies(session?.userId!),
     refetchOnMount: true,
     refetchInterval: 5_000
@@ -49,6 +48,7 @@ const Saved = () => {
           <Text>Error: {query.error.message}</Text>
         ) : query.data && query.data?.length > 0 ? (
           <FlatList
+            className="mb-16"
             keyExtractor={(item) => item.movie_id.toString()}
             numColumns={3}
             data={query.data}
