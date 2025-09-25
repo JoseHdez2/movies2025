@@ -50,7 +50,6 @@ const MovieDetails = () => {
   const handleSaveMovie = async () => {
     if (movie && session) {
       if (!isFavorite){
-        console.log('saveMovie', movie, session.userId)
         await saveMovie({movie, userId: session.userId})
         setIsFavorite(true)
       } else {
