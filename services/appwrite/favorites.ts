@@ -35,7 +35,7 @@ export const saveMovie = async ({
         });
         return result;
     } catch (error) {
-        console.log(error);
+        console.log('saveMovie', error);
         throw error;
     }
 }
@@ -55,33 +55,37 @@ export const deleteUserFavoriteMovie = async ({
         });
         return result;
     } catch (error) {
-        console.log(error);
+        console.error('deleteUserFavoriteMovie', error);
         throw error;
     }
 }
 
-export const getUserFavoriteMovies = async (userId: string): Promise<FavoriteMovie[] | undefined> => {
+export const getAllUserFavoriteMovies = async (userId: string): Promise<FavoriteMovie[] | undefined> => {
     try {
         const result = await tables.listRows({
             ...favoritesTable,
             queries: [Query.equal('user_id', userId)]
         });
+        console.log(result)
         return result.rows as unknown as FavoriteMovie[];
     } catch (error) {
-        console.log(error);
+        console.error('getAllUserFavoriteMovies', error);
         return undefined;
     }
 }
 
-export const getUserFavoriteMovie = async ({user_id, movie_id}: Pick<FavoriteMovie, "user_id" | "movie_id">): Promise<FavoriteMovie[] | undefined> => {
+export const getUserFavoriteMovie = async ({user_id, movie_id}: Pick<FavoriteMovie, "user_id" | "movie_id">): Promise<FavoriteMovie | null> => {
     try {
         const result = await tables.listRows({
             ...favoritesTable,
             queries: [Query.equal('user_id', user_id), Query.equal('movie_id', movie_id)]
         });
-        return result.rows as unknown as FavoriteMovie[];
+        console.log(result)
+        if (result.rows) {
+            return result.rows[0] as unknown as FavoriteMovie;
+        } else return null;
     } catch (error) {
-        console.log(error);
-        return undefined;
+        console.error('getUserFavoriteMovie', error);
+        return null;
     }
 }

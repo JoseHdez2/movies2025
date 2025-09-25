@@ -1,6 +1,6 @@
 import { icons } from '@/constants/icons';
 import { fetchMovieDetails } from '@/services/api';
-import { deleteUserFavoriteMovie, getUserFavoriteMovies, saveMovie } from '@/services/appwrite/favorites';
+import { getUserFavoriteMovie, saveMovie } from '@/services/appwrite/favorites';
 import { updateMovieCheckCount } from '@/services/appwrite/metrics';
 import useFetch from '@/services/useFetch';
 import { useSessionStore } from '@/stores/sessionStore';
@@ -25,7 +25,7 @@ const MovieInfo = ({ label, value }: MovieInfoProps) => (
 )
 
 const MovieDetails = () => {
-  const [isFavorite, setFavorite] = useState(false)
+  const [isFavorite, setIsFavorite] = useState(false)
 
   const { id } = useLocalSearchParams();
 
@@ -39,8 +39,8 @@ const MovieDetails = () => {
         updateMovieCheckCount(movie)
 
         if (session) {
-          const favoriteMovies = await getUserFavoriteMovies(parseInt(session.userId))
-          setFavorite(!!favoriteMovies?.find(m => m.movie_id === movie.id))
+          const favoriteMovie = await getUserFavoriteMovie({user_id: session.userId, movie_id: movie.id})
+          setIsFavorite(!!favoriteMovie)
         }
       }
     })()
@@ -49,11 +49,13 @@ const MovieDetails = () => {
 
   const handleSaveMovie = async () => {
     if (movie && session) {
-      setFavorite(!isFavorite)
-      if (isFavorite){
+      if (!isFavorite){
+        console.log('saveMovie', movie, session.userId)
         await saveMovie({movie, userId: session.userId})
+        setIsFavorite(true)
       } else {
-        await deleteUserFavoriteMovie({user_id: session.userId, movie_id: movie.id})
+        // await deleteUserFavoriteMovie({user_id: session.userId, movie_id: movie.id})
+        setIsFavorite(false)
       }
     }
   }
