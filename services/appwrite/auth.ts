@@ -1,5 +1,5 @@
-
 import { Account, Client, Models } from "react-native-appwrite";
+import { adjectives, animals, colors, uniqueNamesGenerator } from 'unique-names-generator';
 
 const client = new Client()
     .setEndpoint('https://cloud.appwrite.io/v1')
@@ -30,3 +30,17 @@ export const getCurrentSession = async () => {
         return null;
     }
 }
+
+export const getUsername = (session: Models.Session): string => (
+    session.provider === "anonymous" ? getAnonymousUsername(session.userId) : session.userId
+)
+
+export const getAnonymousUsername = (userId: string) => (
+    uniqueNamesGenerator({
+        dictionaries: [adjectives, colors, animals],
+        length: 2,
+        separator: '-',
+        style: 'capital',
+        seed: parseInt(userId)
+      })
+)
