@@ -1,9 +1,11 @@
 import { icons } from '@/constants/icons';
 import { fetchMovieDetails } from '@/services/api';
+import { deleteUserFavoriteMovie, getUserFavoriteMovies, saveMovie } from '@/services/appwrite/favorites';
 import { updateMovieCheckCount } from '@/services/appwrite/metrics';
 import useFetch from '@/services/useFetch';
+import { useSessionStore } from '@/stores/sessionStore';
 import { router, useLocalSearchParams } from 'expo-router';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 interface MovieInfoProps {
@@ -11,7 +13,7 @@ interface MovieInfoProps {
   value?: string | number | null;
 }
 
-const MovieInfo = ({label, value}: MovieInfoProps) => (
+const MovieInfo = ({ label, value }: MovieInfoProps) => (
   <View className='flex-col items-start justify-center mt-5'>
     <Text className='text-light-200 font-normal text-sm'>
       {label}
@@ -23,15 +25,38 @@ const MovieInfo = ({label, value}: MovieInfoProps) => (
 )
 
 const MovieDetails = () => {
+  const [isFavorite, setFavorite] = useState(false)
+
   const { id } = useLocalSearchParams();
 
-  const {data: movie, loading } = useFetch(() => fetchMovieDetails(id as string))
+  const { data: movie, loading } = useFetch(() => fetchMovieDetails(id as string))
+
+  const session = useSessionStore((state) => state.session);
 
   useEffect(() => {
-    if (movie) {
-      updateMovieCheckCount(movie)
+    (async () => {
+      if (movie) {
+        updateMovieCheckCount(movie)
+
+        if (session) {
+          const favoriteMovies = await getUserFavoriteMovies(parseInt(session.userId))
+          setFavorite(!!favoriteMovies?.find(m => m.movie_id === movie.id))
+        }
+      }
+    })()
+  }, [movie, session]);
+
+
+  const handleSaveMovie = async () => {
+    if (movie && session) {
+      setFavorite(!isFavorite)
+      if (isFavorite){
+        await saveMovie({movie, userId: session.userId})
+      } else {
+        await deleteUserFavoriteMovie({user_id: session.userId, movie_id: movie.id})
+      }
     }
-  }, [movie])
+  }
 
   return (
     <View className='bg-primary flex-1'>
@@ -39,14 +64,15 @@ const MovieDetails = () => {
         paddingBottom: 80
       }}>
         <View>
-          <Image source={{ uri: `https://image.tmdb.org/t/p/w500${movie?.poster_path}`}} 
+          <Image source={{ uri: `https://image.tmdb.org/t/p/w500${movie?.poster_path}` }}
             className='w-full h-[550px]' resizeMode="stretch" />
         </View>
 
         <View>
-          <TouchableOpacity 
-            className='relative top-5 left-0 right-0 mx-5 rounded-lg py-3.5 flex flex-row items-center justify-center z-50'
-            onPress={router.back}>
+          <TouchableOpacity
+            className={`relative top-5 left-0 right-0 mx-5 rounded-lg py-3.5 flex flex-row items-center justify-center z-50 ${isFavorite ? 'bg-accent' : ''}`}
+            disabled={!session}
+            onPress={handleSaveMovie}>
             <Image source={icons.save} className='size-5 mr-1 mt-0.5' tintColor="#fff" />
           </TouchableOpacity>
         </View>
@@ -61,7 +87,7 @@ const MovieDetails = () => {
         <View className='flex-row items-center bg-dark-100 px-2 py-1 rounded-md gap-x-1 mt-2'>
           <Image source={icons.star} className='size-4' />
           <Text className='text-white font-bold text-sm'>{Math.round(movie?.vote_average ?? 0)}/10</Text>
-          <Text className='text-light-200 text-sm'>{movie?.vote_count} vote{movie?.vote_count !== 1 ? 's' : '' }</Text>
+          <Text className='text-light-200 text-sm'>{movie?.vote_count} vote{movie?.vote_count !== 1 ? 's' : ''}</Text>
         </View>
         <MovieInfo label="Overview" value={movie?.overview} />
         <MovieInfo label="Genres" value={movie?.genres?.map(g => g.name).join(' - ')} />
@@ -71,7 +97,7 @@ const MovieDetails = () => {
         </View>
         <MovieInfo label="Production Companies" value={movie?.production_companies.map(c => c.name).join(' - ') || 'N/A'} />
       </ScrollView>
-      <TouchableOpacity 
+      <TouchableOpacity
         className='absolute bottom-5 left-0 right-0 mx-5 bg-accent rounded-lg py-3.5 flex flex-row items-center justify-center z-50'
         onPress={router.back}>
         <Image source={icons.arrow} className='size-5 mr-1 mt-0.5 rotate-180' />

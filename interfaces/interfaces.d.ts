@@ -25,7 +25,7 @@ interface TrendingMovie {
 
 interface FavoriteMovie {
   movie_id: number;
-  user_id: number;
+  user_id: string;
   movie_title: string;
   poster_url: string;
 }
