@@ -42,7 +42,7 @@ const Saved = () => {
                 id: item.movie_id,
                 title: item.movie_title,
                 poster_path: item.poster_url,
-                vote_average: (JSON.stringify(item.movie_details) as unknown as MovieDetails).vote_average
+                vote_average: (JSON.parse(item.movie_details) as unknown as MovieDetails).vote_average
               }}
               />
             )}
