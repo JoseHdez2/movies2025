@@ -19,7 +19,7 @@ const Profile = () => {
         setSessionId(currentSession?.$id) 
       }
     })()
-  }, [])
+  })
 
   const handleAnonymousLogin = async () => {
     let session = await createAnonymousSession();
