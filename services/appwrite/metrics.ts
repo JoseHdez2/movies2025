@@ -10,7 +10,7 @@ const client = new Client()
 // const result = await
 
 const tables = new TablesDB(client)
-const pointer = {
+const metricsTable = {
     databaseId: DATABASE_ID,
     tableId: COLLECTION_ID
 }
@@ -18,13 +18,13 @@ const pointer = {
 export const updateSearchCount = async (query: string, movie: Movie) => {
     try {
         const result = await tables.listRows({
-            ...pointer, queries: [Query.equal('searchTerm', query)]
+            ...metricsTable, queries: [Query.equal('searchTerm', query)]
         });
 
         if (result.rows.length > 0) {
             const existingMovie = result.rows[0];
             await tables.updateRow({
-                ...pointer,
+                ...metricsTable,
                 rowId: existingMovie.$id,
                 data: {
                     count: existingMovie.count + 1
@@ -32,7 +32,7 @@ export const updateSearchCount = async (query: string, movie: Movie) => {
             });
         } else {
             await tables.createRow({
-                ...pointer,
+                ...metricsTable,
                 rowId: ID.unique(),
                 data: {
                     title: movie.title,
@@ -53,13 +53,13 @@ export const updateSearchCount = async (query: string, movie: Movie) => {
 export const updateMovieCheckCount = async (movie: MovieDetails) => {
     try {
         const result = await tables.listRows({
-            ...pointer, queries: [Query.equal('movie_id', movie?.id)]
+            ...metricsTable, queries: [Query.equal('movie_id', movie?.id)]
         });
 
         if (result.rows.length > 0) {
             const existingMovie = result.rows[0];
             await tables.updateRow({
-                ...pointer,
+                ...metricsTable,
                 rowId: existingMovie.$id,
                 data: {
                     count: existingMovie.count + 1
@@ -67,7 +67,7 @@ export const updateMovieCheckCount = async (movie: MovieDetails) => {
             });
         } else {
             await tables.createRow({
-                ...pointer,
+                ...metricsTable,
                 rowId: ID.unique(),
                 data: {
                     title: movie.title,
@@ -89,7 +89,7 @@ export const updateMovieCheckCount = async (movie: MovieDetails) => {
 export const getTrendingMovies = async (): Promise<TrendingMovie[] | undefined> => {
     try {
         const result = await tables.listRows({
-            ...pointer,
+            ...metricsTable,
             queries: [Query.limit(5), Query.orderDesc('count')]
         });
         return result.rows as unknown as TrendingMovie[];
