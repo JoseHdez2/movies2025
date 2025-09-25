@@ -45,13 +45,13 @@ export const deleteUserFavoriteMovie = async ({
     movie_id
 }: Pick<FavoriteMovie, "user_id" | "movie_id">) => {
     try {
-        const favoriteMovie = getUserFavoriteMovie({user_id, movie_id})
+        const favoriteMovie = await getUserFavoriteMovie({user_id, movie_id})
         if (!favoriteMovie) {
             throw new Error(`NotFound: Could not delete user favorite: ${{user_id, movie_id}}`)
         }
         const result = await tables.deleteRow({
             ...favoritesTable,
-            rowId: ID.unique()
+            rowId: favoriteMovie.$id
         });
         return result;
     } catch (error) {
@@ -73,14 +73,16 @@ export const getAllUserFavoriteMovies = async (userId: string): Promise<Favorite
     }
 }
 
-export const getUserFavoriteMovie = async ({user_id, movie_id}: Pick<FavoriteMovie, "user_id" | "movie_id">): Promise<FavoriteMovie | null> => {
+type FavoriteMovieWithDbId = FavoriteMovie & {$id: string}
+
+export const getUserFavoriteMovie = async ({user_id, movie_id}: Pick<FavoriteMovie, "user_id" | "movie_id">): Promise<FavoriteMovieWithDbId | null> => {
     try {
         const result = await tables.listRows({
             ...favoritesTable,
             queries: [Query.equal('user_id', user_id), Query.equal('movie_id', movie_id)]
         });
         if (result.rows) {
-            return result.rows[0] as unknown as FavoriteMovie;
+            return result.rows[0] as unknown as FavoriteMovieWithDbId;
         } else return null;
     } catch (error) {
         console.error('getUserFavoriteMovie', error);

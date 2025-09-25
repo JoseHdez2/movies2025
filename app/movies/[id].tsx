@@ -1,6 +1,6 @@
 import { icons } from '@/constants/icons';
 import { fetchMovieDetails } from '@/services/api';
-import { getUserFavoriteMovie, saveMovie } from '@/services/appwrite/favorites';
+import { deleteUserFavoriteMovie, getUserFavoriteMovie, saveMovie } from '@/services/appwrite/favorites';
 import { updateMovieCheckCount } from '@/services/appwrite/metrics';
 import useFetch from '@/services/useFetch';
 import { useSessionStore } from '@/stores/sessionStore';
@@ -53,7 +53,7 @@ const MovieDetails = () => {
         await saveMovie({movie, userId: session.userId})
         setIsFavorite(true)
       } else {
-        // await deleteUserFavoriteMovie({user_id: session.userId, movie_id: movie.id})
+        await deleteUserFavoriteMovie({user_id: session.userId, movie_id: movie.id})
         setIsFavorite(false)
       }
     }

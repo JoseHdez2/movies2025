@@ -5,7 +5,7 @@ import { icons } from '@/constants/icons'
 import { getAllUserFavoriteMovies } from '@/services/appwrite/favorites'
 import { useSessionStore } from '@/stores/sessionStore'
 import { useQuery } from '@tanstack/react-query'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { ActivityIndicator, FlatList, ScrollView, Text, View } from 'react-native'
 
 const Saved = () => {
@@ -18,20 +18,6 @@ const Saved = () => {
     refetchOnMount: true,
     refetchInterval: 5_000
   })
-
-  useEffect(() => {
-    if (session){
-      console.log('manual refetch')
-      query.refetch()
-    }
-  })
-
-  // const {
-  //   data: savedMovies,
-  //   loading: savedMoviesLoading,
-  //   error: savedMoviesError
-  // } = useSessionFetch(
-  //   () => getAllUserFavoriteMovies(session?.userId!), session)
 
   return (
     <Background>
