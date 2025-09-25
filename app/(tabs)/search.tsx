@@ -1,12 +1,12 @@
 import Background from '@/components/Background';
+import ListLogo from '@/components/list/ListLogo';
 import MovieCard from '@/components/MovieCard';
 import SearchBar from '@/components/SearchBar';
-import { icons } from '@/constants/icons';
 import { fetchMovies } from '@/services/api';
 import { updateSearchCount } from '@/services/appwrite/metrics';
 import useFetch from '@/services/useFetch';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, Image, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, Text, View } from 'react-native';
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -55,9 +55,7 @@ const Search = () => {
         contentContainerStyle={{ paddingBottom: 100 }}
         ListHeaderComponent={
           <>
-            <View className='w-full flex-row justify-center mt-20 items-center'>
-              <Image source={icons.logo} className='w-12 h-10' />
-            </View>
+            <ListLogo />
 
             <View className='my-5'>
               <SearchBar 

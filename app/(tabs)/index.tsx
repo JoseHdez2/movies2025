@@ -1,14 +1,14 @@
 
 import Background from "@/components/Background";
+import ListLogo from "@/components/list/ListLogo";
 import MovieCard from "@/components/MovieCard";
 import SearchBar from "@/components/SearchBar";
 import TrendingCard from "@/components/TrendingCard";
-import { icons } from "@/constants/icons";
 import { fetchMovies } from "@/services/api";
 import { getTrendingMovies } from "@/services/appwrite/metrics";
 import useFetch from "@/services/useFetch";
 import { useRouter } from "expo-router";
-import { ActivityIndicator, FlatList, Image, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, FlatList, ScrollView, Text, View } from "react-native";
 import "../globals.css";
 
 // create a react native component showing a flatlist with static data and show it in index.tsx
@@ -34,7 +34,7 @@ export default function Index() {
       <ScrollView className="flex-1 px-5" showsVerticalScrollIndicator={false} 
         contentContainerStyle={{minHeight: "100%", paddingBottom: 10 }}
       >
-        <Image source={icons.logo} className="w-12 h-10 mt-20 mb-b mx-auto" />
+          <ListLogo />
 
           { moviesLoading || trendingLoading ? (<ActivityIndicator
           size="large"
