@@ -40,7 +40,7 @@ export const fetchMovieDetails = async (movieId: string): Promise<MovieDetails> 
 
         return data
     } catch (error) {
-        console.log(error)
+        console.error("fetchMovieDetails", error)
         throw error;
     }
 }

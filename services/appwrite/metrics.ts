@@ -45,7 +45,7 @@ export const updateSearchCount = async (query: string, movie: Movie) => {
         }
         return result
     } catch (error) {
-        console.log(error)
+        console.error("updateSearchCount", error)
         throw error
     }
 }
@@ -80,7 +80,7 @@ export const updateMovieCheckCount = async (movie: MovieDetails) => {
         }
         return result
     } catch (error) {
-        console.log(error)
+        console.error("updateMovieCheckCount", error)
         throw error
     }
 
@@ -94,7 +94,7 @@ export const getTrendingMovies = async (): Promise<TrendingMovie[] | undefined> 
         });
         return result.rows as unknown as TrendingMovie[];
     } catch (error) {
-        console.log(error);
+        console.error("getTrendingMovies", error);
         return undefined;
     }
 }

@@ -35,7 +35,7 @@ export const saveMovie = async ({
         });
         return result;
     } catch (error) {
-        console.log('saveMovie', error);
+        console.error('saveMovie', error);
         throw error;
     }
 }
@@ -66,7 +66,6 @@ export const getAllUserFavoriteMovies = async (userId: string): Promise<Favorite
             ...favoritesTable,
             queries: [Query.equal('user_id', userId)]
         });
-        console.log(result)
         return result.rows as unknown as FavoriteMovie[];
     } catch (error) {
         console.error('getAllUserFavoriteMovies', error);
@@ -80,7 +79,6 @@ export const getUserFavoriteMovie = async ({user_id, movie_id}: Pick<FavoriteMov
             ...favoritesTable,
             queries: [Query.equal('user_id', user_id), Query.equal('movie_id', movie_id)]
         });
-        console.log(result)
         if (result.rows) {
             return result.rows[0] as unknown as FavoriteMovie;
         } else return null;
