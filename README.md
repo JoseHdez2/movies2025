@@ -1,7 +1,15 @@
 # PuroCine
 ### React Native app for browsing a movie database
-- Search and browse millions of movies thanks to the [TMDB](https://www.themoviedb.org/) API.
-- Save your favorites.
+- Search and browse millions of movies.
+- Save your favorites with an anonymous account.
 
-https://github.com/user-attachments/assets/87244fd9-3a71-4ad8-a4d0-1806a76859c7
+### Tech Stack
+- React Native + Expo
+- [TMDB](https://www.themoviedb.org/) for movies data API.
+- Appwrite for BaaS
+- TanStack for fetching data
+- Nativewind for styling
+
+
+https://github.com/user-attachments/assets/7899152c-00a9-4cbc-82d6-1c87f066a83f
 
